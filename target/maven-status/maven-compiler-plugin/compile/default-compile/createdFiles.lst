@@ -1,0 +1,12 @@
+lsh/XmlInputFormat.class
+lsh/PairWritable.class
+lsh/TupleArrayWritable.class
+lsh/TupleWritable.class
+lsh/TFCalculate.class
+lsh/LongArrayWritable.class
+lsh/TFCalculate$Map.class
+lsh/WordCount$Map.class
+lsh/XmlInputFormat$XMLRecordReader.class
+lsh/PageOffLen.class
+lsh/WordCount.class
+lsh/PageOffLen$Map.class
