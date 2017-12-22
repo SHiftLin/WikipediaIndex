@@ -79,9 +79,13 @@ public class TFCalculate {
     public static String[] slice(char[] text) {
         ArrayList<String> words = new ArrayList<String>();
         int len = text.length;
+        String word;
         for (int i = 0, j = 0; i < len; i = j + 1) {
-            for (j = i; j < len && Character.isLetter(text[j]); j++) ;
-            if (j > i) words.add(String.valueOf(text, i, j - i));
+            for (j = i; j < len && !Character.isWhitespace(text[j]); j++) ;
+            if (j > i) {
+                word = String.valueOf(text, i, j - i);
+                if (word.matches("^[A-Za-z]+$")) words.add(word);
+            }
         }
         return words.toArray(new String[]{});
     }
