@@ -4,20 +4,6 @@ package lsh;
  * Created by lsh on 12/12/2017.
  */
 
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
-
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.StringReader;
-import java.util.ArrayList;
-import org.apache.hadoop.io.Writable;
-
-import lsh.TupleWritable;
-
 public class WikiCleanTest {
     public static void main(String[] args) throws Exception {
 /*        InputStream fin=new FileInputStream("/Users/lsh/Desktop/input.txt");

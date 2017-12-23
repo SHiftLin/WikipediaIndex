@@ -2,7 +2,6 @@ package lsh;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.Path;
-import org.apache.hadoop.io.ArrayWritable;
 import org.apache.hadoop.io.LongWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Job;
@@ -21,28 +20,6 @@ import java.util.HashSet;
  * Created by lsh on 13/12/2017.
  */
 
-class TupleArrayWritable extends ArrayWritable {
-    public TupleArrayWritable() {
-        super(TupleArrayWritable.class);
-    }
-
-    public TupleArrayWritable(TupleWritable[] arrays) {
-        super(TupleWritable.class);
-        set(arrays);
-    }
-
-    @Override
-    public String toString() {
-        String[] strs = toStrings();
-        String res = "";
-        for (int i = 0; i < strs.length; i++) {
-            res += strs[i];
-            if (i + 1 < strs.length) res += "\t";
-        }
-        return res;
-    }
-}
-
 public class TFCalculate {
     private static HashSet stopwords = new HashSet<String>();
 
@@ -53,6 +30,7 @@ public class TFCalculate {
         int len = fin.read(buffer);
         String[] words = new String(buffer, 0, len).split("\n");
         for (String word : words) stopwords.add(word);
+        System.out.println(stopwords.size());
 
         Configuration conf = new Configuration();
         conf.set("xmlinput.start", "<page>");
@@ -61,15 +39,13 @@ public class TFCalculate {
         Job job = Job.getInstance(conf);
         job.setJarByClass(TFCalculate.class);
         job.setMapperClass(TFCalculate.Map.class);
-        // job.setCombinerClass(IntSumReducer.class);
-        // job.setReducerClass(TFCalculate.Reduce.class);
 
         job.setInputFormatClass(XmlInputFormat.class);
         //job.setOutputKeyClass(Text.class);
         //job.setOutputValueClass(TupleArrayWritable.class);
-        //job.setMapOutputValueClass(TupleWritable.class);
-        job.setOutputKeyClass(PairWritable.class);
-        job.setOutputValueClass(TupleWritable.class);
+        //job.setMapOutputValueClass(PairLongLongWritable.class);
+        job.setOutputKeyClass(PairStringDoubleWritable.class);
+        job.setOutputValueClass(PairLongLongWritable.class);
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
@@ -90,7 +66,9 @@ public class TFCalculate {
         return words.toArray(new String[]{});
     }
 
-    public static class Map extends Mapper<LongWritable, Text, PairWritable, TupleWritable> {
+    public static class Map extends Mapper<LongWritable, Text, PairStringDoubleWritable, PairLongLongWritable> {
+
+        final static double alpha = 0.2;
 
         public void map(LongWritable pos, Text value, Context context) throws IOException, InterruptedException {
             HashMap<String, Long> count = new HashMap<String, Long>();
@@ -117,16 +95,18 @@ public class TFCalculate {
 
             for (HashMap.Entry<String, Long> entry : count.entrySet()) {
                 String key = entry.getKey();
-                double tf = 1000.0 * entry.getValue() / n;
-                context.write(new PairWritable(key, id), new TupleWritable(tf, (title.indexOf(key) == -1) ? 0 : 1));
+                double tf = 1.0 * entry.getValue() / n;
+                int z = (title.indexOf(key) == -1) ? 0 : 1;
+                double s = ((1 - alpha) * tf + alpha * z) * 1000.0;
+                context.write(new PairStringDoubleWritable(key, s), new PairLongLongWritable(id, z));
             }
         }
     }
 
- /*   public static class Combiner extends Reducer<Text, TupleWritable, Text, TupleArrayWritable> {
+ /*   public static class Combiner extends Reducer<Text, PairLongLongWritable, Text, TupleArrayWritable> {
 
-        public void reduce(Text word, Iterable<TupleWritable> docs, Context context) throws IOException, InterruptedException {
-            for(TupleWritable doc:docs)
+        public void reduce(Text word, Iterable<PairLongLongWritable> docs, Context context) throws IOException, InterruptedException {
+            for(PairLongLongWritable doc:docs)
             {
                 doc.
             }
@@ -135,16 +115,16 @@ public class TFCalculate {
 
     }*/
 
-   /* public static class Reduce extends Reducer<Text, TupleWritable, Text, TupleArrayWritable> {
+   /* public static class Reduce extends Reducer<Text, PairLongLongWritable, Text, TupleArrayWritable> {
 
-        public void reduce(Text word, Iterable<TupleWritable> docs, Context context) throws IOException, InterruptedException {
-            ArrayList<TupleWritable> array = new ArrayList<TupleWritable>();
-            for (TupleWritable doc : docs) {
-                TupleWritable d=new TupleWritable(doc.x, doc.y, doc.z);
+        public void reduce(Text word, Iterable<PairLongLongWritable> docs, Context context) throws IOException, InterruptedException {
+            ArrayList<PairLongLongWritable> array = new ArrayList<PairLongLongWritable>();
+            for (PairLongLongWritable doc : docs) {
+                PairLongLongWritable d=new PairLongLongWritable(doc.x, doc.y, doc.z);
                 array.add(d);
             }
-        *//*    Comparator<TupleWritable> cmp = new Comparator<TupleWritable>() {
-                public int compare(TupleWritable a, TupleWritable b) {
+        *//*    Comparator<PairLongLongWritable> cmp = new Comparator<PairLongLongWritable>() {
+                public int compare(PairLongLongWritable a, PairLongLongWritable b) {
                     Double A=new Double(a.s);
                     Double B=new Double(b.s);
                     return A.compareTo(B);
@@ -156,7 +136,7 @@ public class TFCalculate {
             System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
             Collections.sort(array, cmp);*//*
 
-            context.write(word, new TupleArrayWritable(array.toArray(new TupleWritable[]{})));
+            context.write(word, new TupleArrayWritable(array.toArray(new PairLongLongWritable[]{})));
         }
 
     }*/
