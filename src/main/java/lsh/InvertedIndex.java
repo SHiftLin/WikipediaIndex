@@ -16,21 +16,19 @@ import java.util.ArrayList;
 /**
  * Created by lsh on 24/12/2017.
  */
-public class TFIndex {
+public class InvertedIndex {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
 
         Job job = Job.getInstance(conf);
-        job.setJarByClass(TFIndex.class);
-        job.setMapperClass(TFIndex.Map.class);
-        job.setReducerClass(TFIndex.Reduce.class);
+        job.setJarByClass(InvertedIndex.class);
+        job.setMapperClass(InvertedIndex.Map.class);
+        job.setReducerClass(InvertedIndex.Reduce.class);
 
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(TripleWritable.class);
         job.setMapOutputValueClass(PairLongLongWritable.class);
-        job.setOutputKeyClass(PairStringDoubleWritable.class);
-        job.setOutputValueClass(PairLongLongWritable.class);
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
@@ -56,8 +54,8 @@ public class TFIndex {
         final static double alpha = 0.2;
 
         public void map(LongWritable pos, Text value, Context context) throws IOException, InterruptedException {
-            long len=value.getLength();
-            String word=(value.toString().split("[\\s]"))[0];
+            long len=value.getLength()+1;
+            String word=(value.toString().split(","))[0];
             context.write(new Text(word),new PairLongLongWritable(pos.get(),len));
         }
     }
@@ -76,10 +74,9 @@ public class TFIndex {
 
     public static class Reduce extends Reducer<Text, PairLongLongWritable, Text, TripleWritable> {
 
-        final long INF=1<<63;
+        final long INF=((long)1<<30)*((long)1<<30);
 
         public void reduce(Text word, Iterable<PairLongLongWritable> pairs, Context context) throws IOException, InterruptedException {
-            System.out.println(INF);
             long start=INF,len=0,count=0;
             for(PairLongLongWritable pair:pairs){
                 start=Math.min(start,pair.x);

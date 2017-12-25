@@ -36,7 +36,7 @@ public class PairStringDoubleWritable implements WritableComparable<PairStringDo
     public int compareTo(PairStringDoubleWritable op) {
         int cmp = x.compareTo(op.x);
         if (cmp != 0) return cmp;
-        return new Double(y).compareTo(op.y);
+        return -(new Double(y)).compareTo(op.y);
     }
 
     @Override

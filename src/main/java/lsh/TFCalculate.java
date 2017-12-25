@@ -41,9 +41,6 @@ public class TFCalculate {
         job.setMapperClass(TFCalculate.Map.class);
 
         job.setInputFormatClass(XmlInputFormat.class);
-        //job.setOutputKeyClass(Text.class);
-        //job.setOutputValueClass(TupleArrayWritable.class);
-        //job.setMapOutputValueClass(PairLongLongWritable.class);
         job.setOutputKeyClass(PairStringDoubleWritable.class);
         job.setOutputValueClass(PairLongLongWritable.class);
 
@@ -81,7 +78,8 @@ public class TFCalculate {
             String content = cleaner.clean(text).toLowerCase();
 
             String[] words = slice(title.toCharArray());
-            for (int i = 0; i < words.length; i++)
+            int m = words.length;
+            for (int i = 0; i < m; i++)
                 count.put(words[i], new Long(0));
 
             words = slice(content.toCharArray());
@@ -95,7 +93,7 @@ public class TFCalculate {
 
             for (HashMap.Entry<String, Long> entry : count.entrySet()) {
                 String key = entry.getKey();
-                double tf = 1.0 * entry.getValue() / n;
+                double tf = 1.0 * entry.getValue() / (n + m);
                 int z = (title.indexOf(key) == -1) ? 0 : 1;
                 double s = ((1 - alpha) * tf + alpha * z) * 1000.0;
                 context.write(new PairStringDoubleWritable(key, s), new PairLongLongWritable(id, z));
