@@ -1,0 +1,15 @@
+CREATE TABLE TFIndex
+(
+  word   CHAR(255) NOT NULL
+    PRIMARY KEY,
+  start  BIGINT    NOT NULL,
+  length BIGINT    NOT NULL,
+  count  BIGINT    NOT NULL
+);
+
+CREATE TABLE PageIndex
+(
+  pageid BIGINT NOT NULL PRIMARY KEY,
+  offset BIGINT NOT NULL,
+  length BIGINT NOT NULL
+);
