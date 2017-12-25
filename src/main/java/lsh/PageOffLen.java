@@ -42,23 +42,6 @@ class LongArrayWritable extends ArrayWritable {
 
 public class PageOffLen {
 
-    private static DocumentBuilderFactory builderFactory = DocumentBuilderFactory.newInstance();
-
-/*
-    public static long getPageID(String text) {
-        try {
-            DocumentBuilder builder = builderFactory.newDocumentBuilder();
-            InputSource is = new InputSource(new StringReader(text));
-            Document doc = builder.parse(is);
-            Element page = (Element) doc.getElementsByTagName("page").item(0);
-            Element id = (Element) page.getElementsByTagName("id").item(0);
-            return Long.parseLong(id.getTextContent());
-        } catch (Exception e) {
-            return -1;
-        }
-    }
-*/
-
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
         conf.set("xmlinput.start", "<page>");

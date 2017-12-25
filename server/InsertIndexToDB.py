@@ -55,27 +55,27 @@ if len(sys.argv)<3:
 TFIndex=sys.argv[1] #InvertedIndex
 pageIndex=sys.argv[2] #PageOffLen
 
-# with open(TFIndex,"r") as fin:
-#     i=0; mod=100
-#     data=[]; values=''
-#     for line in fin:
-#         [word,triple]=line.split()
-#         [start,length,count]=triple.split(',')
-#         data.append(word)
-#         data.append(int(start))
-#         data.append(int(length))
-#         data.append(int(count))
-#         i+=1
-#         if i>1:
-#             values+=",(%s, %s, %s, %s)"
-#         else:
-#             values+="(%s, %s, %s, %s)"
-#         if i==mod:
-#             pdbc.insertTFIndex(values,tuple(data))
-#             data=[]
-#             values=''
-#             i=0
-#     pdbc.insertTFIndex(values,data)
+with open(TFIndex,"r") as fin:
+    i=0; mod=100
+    data=[]; values=''
+    for line in fin:
+        [word,triple]=line.split()
+        [start,length,count]=triple.split(',')
+        data.append(word)
+        data.append(int(start))
+        data.append(int(length))
+        data.append(int(count))
+        i+=1
+        if i>1:
+            values+=",(%s, %s, %s, %s)"
+        else:
+            values+="(%s, %s, %s, %s)"
+        if i==mod:
+            #pdbc.insertTFIndex(values,tuple(data))
+            data=[]
+            values=''
+            i=0
+    #pdbc.insertTFIndex(values,data)
 
 
 with open(pageIndex,"r") as fin:
@@ -92,9 +92,9 @@ with open(pageIndex,"r") as fin:
         else:
             values+="(%s, %s, %s)"
         if i==mod:
-            pdbc.insertPageIndex(values,tuple(data))
+            #pdbc.insertPageIndex(values,tuple(data))
             data=[]
             values=''
             i=0
-    pdbc.insertPageIndex(values,data)
+    #pdbc.insertPageIndex(values,data)
 

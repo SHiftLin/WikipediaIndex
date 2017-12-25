@@ -60,17 +60,6 @@ public class InvertedIndex {
         }
     }
 
-/*    public static class Combiner extends Reducer<Text, PairLongLongWritable, Text, TripleWritable> {
-
-        public void reduce(Text word, Iterable<PairLongLongWritable> docs, Context context) throws IOException, InterruptedException {
-            for(PairLongLongWritable doc:docs)
-            {
-                doc.
-            }
-            context.write(Text,Iterable);
-        }
-
-    }*/
 
     public static class Reduce extends Reducer<Text, PairLongLongWritable, Text, TripleWritable> {
 

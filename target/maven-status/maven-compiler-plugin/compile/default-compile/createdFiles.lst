@@ -6,11 +6,9 @@ lsh/LongArrayWritable.class
 lsh/PairStringDoubleWritable.class
 lsh/PairLongLongWritable.class
 lsh/TFCalculate$Map.class
-lsh/WordCount$Map.class
 lsh/InvertedIndex.class
 lsh/XmlInputFormat$XMLRecordReader.class
 lsh/PageOffLen.class
 lsh/InvertedIndex$Reduce.class
-lsh/WordCount.class
 lsh/TripleWritable.class
 lsh/PageOffLen$Map.class

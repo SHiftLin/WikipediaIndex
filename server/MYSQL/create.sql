@@ -16,3 +16,5 @@ CREATE TABLE pageIndex
 
 SELECT COUNT(*)
 FROM pageIndex;
+SELECT COUNT(*)
+FROM TFIndex;

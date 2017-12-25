@@ -102,41 +102,4 @@ public class TFCalculate {
         }
     }
 
- /*   public static class Combiner extends Reducer<Text, PairLongLongWritable, Text, TupleArrayWritable> {
-
-        public void reduce(Text word, Iterable<PairLongLongWritable> docs, Context context) throws IOException, InterruptedException {
-            for(PairLongLongWritable doc:docs)
-            {
-                doc.
-            }
-            context.write(Text,Iterable);
-        }
-
-    }*/
-
-   /* public static class Reduce extends Reducer<Text, PairLongLongWritable, Text, TupleArrayWritable> {
-
-        public void reduce(Text word, Iterable<PairLongLongWritable> docs, Context context) throws IOException, InterruptedException {
-            ArrayList<PairLongLongWritable> array = new ArrayList<PairLongLongWritable>();
-            for (PairLongLongWritable doc : docs) {
-                PairLongLongWritable d=new PairLongLongWritable(doc.x, doc.y, doc.z);
-                array.add(d);
-            }
-        *//*    Comparator<PairLongLongWritable> cmp = new Comparator<PairLongLongWritable>() {
-                public int compare(PairLongLongWritable a, PairLongLongWritable b) {
-                    Double A=new Double(a.s);
-                    Double B=new Double(b.s);
-                    return A.compareTo(B);
-                    *//**//*if(a.s<b.s) return -1;
-                    else if(a.s>b.s) return 1;
-                    else return 0;*//**//*
-                }
-            };
-            System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-            Collections.sort(array, cmp);*//*
-
-            context.write(word, new TupleArrayWritable(array.toArray(new PairLongLongWritable[]{})));
-        }
-
-    }*/
 }

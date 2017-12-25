@@ -32,8 +32,9 @@ class PDBC:
             self.conn.close()
 
     def queryIndex(self,word):
+        word=word.lower()
         cur=self.conn.cursor()
-        cur.execute("SELECT * FROM wikiindex WHERE word='"+word+"' LIMIT 1")
+        cur.execute("SELECT * FROM TFindex WHERE word='"+word+"' LIMIT 1")
         row=cur.fetchone()
         cur.close()
         return row
@@ -58,13 +59,13 @@ def search():
     if row!=None:
         (word,start,length,count)=row
         f_tf.seek(start)
-        n=min(count,20)
+        n=min(count,30)
         for i in xrange(0,n,1):
             line=f_tf.readline(length)
             p=line.find('\t')
             key=line[:p]; value=line[p+1:]
             (word,tf_str)=key.split(',')
-            tf=float(tf_str)
+            tf=float(tf_str)/1000
             p=value.find(',')
             page_id=int(value[:p])
             title=value[p+1:-1]
