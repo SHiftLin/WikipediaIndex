@@ -7,9 +7,12 @@ CREATE TABLE TFIndex
   count  BIGINT    NOT NULL
 );
 
-CREATE TABLE PageIndex
+CREATE TABLE pageIndex
 (
   pageid BIGINT NOT NULL PRIMARY KEY,
   offset BIGINT NOT NULL,
   length BIGINT NOT NULL
 );
+
+SELECT COUNT(*)
+FROM pageIndex;

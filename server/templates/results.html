@@ -4,16 +4,57 @@
     <title>Search results</title>
 </head>
 <body>
-    <table border="1">
-        <tr>
-            <th>Page ID</th>
-            <th>TF Value</th>
-        </tr>
-        {% for item in data %}
-        <tr>
-            <th>{{item["page_id"]}}</th>
-            <th>{{item["tf"]}}</th>
-        </tr>
-        {% endfor %}
+    <div class="container">
+        <table id="table-7">
+            <thead>
+                <th>Page ID</th>
+                <th>TF Value</th>
+                <th>Title</th>
+            </thead>
+            {% for item in data %}
+            <tbody>
+            <tr>
+                <td>
+                    <a href="/getPage?page_id={{item['page_id']}}">{{item["page_id"]}}</a>
+                </td>
+                <td>{{item["tf"]}}</td>
+                <td>{{item["title"]}}</td>
+            </tr>
+            </tbody>
+            {% endfor %}
+        </table>
+    </div>
 </body>
+<style>
+.container{
+    display: flex;
+    justify-content: center;
+}
+
+/* Table Head */
+#table-7 thead th {
+background-color: rgb(81, 130, 187);
+color: #fff;
+border-bottom-width: 0;
+}
+
+/* Column Style */
+#table-7 td {
+color: #000;
+}
+/* Heading and Column Style */
+#table-7 tr, #table-7 th {
+border-width: 1px;
+border-style: solid;
+border-color: rgb(81, 130, 187);
+}
+
+/* Padding and font style */
+#table-7 td, #table-7 th {
+padding: 5px 10px;
+font-size: 12px;
+font-family: Verdana;
+font-weight: bold;
+}
+</style>
 </html>

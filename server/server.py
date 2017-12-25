@@ -38,12 +38,16 @@ class PDBC:
         cur.close()
         return row
 
-    def queryPage(self,id):
-        pass
+    def queryPage(self,page_id):
+        cur=self.conn.cursor()
+        cur.execute("SELECT * FROM pageIndex WHERE pageid='"+page_id+"' LIMIT 1")
+        row=cur.fetchone()
+        cur.close()
+        return row
 
 pdbc=PDBC()
 f_tf=open("resources/TFCalculate","r")
-f_page=open("resources/PageOffLen","r")
+f_page=open("resources/enwikisource-20171020-pages-articles-multistream.xml","r")
 
 
 @app.route('/search')
@@ -57,15 +61,26 @@ def search():
         n=min(count,20)
         for i in xrange(0,n,1):
             line=f_tf.readline(length)
-            (key,value)=line.split('\t')
+            p=line.find('\t')
+            key=line[:p]; value=line[p+1:]
             (word,tf_str)=key.split(',')
-            (page_id_str,isTitle_str)=value.split(',')
             tf=float(tf_str)
-            page_id=int(page_id_str)
-            data.append({'page_id':page_id,'tf':tf})
+            p=value.find(',')
+            page_id=int(value[:p])
+            title=value[p+1:-1]
+            data.append({'page_id':page_id,'tf':tf,'title':title})
     return render_template('results.html',data=data)
 
-
+@app.route('/getPage')
+def getPage():
+    page_id=request.args.get('page_id')
+    row=pdbc.queryPage(page_id)
+    page=''
+    if row!=None:
+        (page_id,offset,length)=row
+        f_page.seek(offset)
+        page=f_page.read(length)
+    return page
 
 @app.route('/')
 def index():

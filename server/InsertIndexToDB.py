@@ -52,8 +52,8 @@ if len(sys.argv)<3:
     print "need input file"
     exit();
 
-TFIndex=sys.argv[1]
-pageIndex=sys.argv[2]
+TFIndex=sys.argv[1] #InvertedIndex
+pageIndex=sys.argv[2] #PageOffLen
 
 # with open(TFIndex,"r") as fin:
 #     i=0; mod=100

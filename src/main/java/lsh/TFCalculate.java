@@ -42,7 +42,7 @@ public class TFCalculate {
 
         job.setInputFormatClass(XmlInputFormat.class);
         job.setOutputKeyClass(PairStringDoubleWritable.class);
-        job.setOutputValueClass(PairLongLongWritable.class);
+        job.setOutputValueClass(PairLongStringWritable.class);
 
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
@@ -63,7 +63,7 @@ public class TFCalculate {
         return words.toArray(new String[]{});
     }
 
-    public static class Map extends Mapper<LongWritable, Text, PairStringDoubleWritable, PairLongLongWritable> {
+    public static class Map extends Mapper<LongWritable, Text, PairStringDoubleWritable, PairLongStringWritable> {
 
         final static double alpha = 0.2;
 
@@ -74,7 +74,8 @@ public class TFCalculate {
 
             WikiClean cleaner = new WikiClean.Builder().withTitle(false).build();
             Long id = Long.parseLong(cleaner.getId(text));
-            String title = cleaner.getTitle(text).toLowerCase();
+            String origin_title = cleaner.getTitle(text);
+            String title = origin_title.toLowerCase();
             String content = cleaner.clean(text).toLowerCase();
 
             String[] words = slice(title.toCharArray());
@@ -96,7 +97,7 @@ public class TFCalculate {
                 double tf = 1.0 * entry.getValue() / (n + m);
                 int z = (title.indexOf(key) == -1) ? 0 : 1;
                 double s = ((1 - alpha) * tf + alpha * z) * 1000.0;
-                context.write(new PairStringDoubleWritable(key, s), new PairLongLongWritable(id, z));
+                context.write(new PairStringDoubleWritable(key, s), new PairLongStringWritable(id, origin_title));
             }
         }
     }
