@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Search results</title>
+</head>
+<body>
+    <table border="1">
+        <tr>
+            <th>Page ID</th>
+            <th>TF Value</th>
+        </tr>
+        {% for item in data %}
+        <tr>
+            <th>{{item["page_id"]}}</th>
+            <th>{{item["tf"]}}</th>
+        </tr>
+        {% endfor %}
+</body>
+</html>
