@@ -49,7 +49,7 @@ class PDBC:
 pdbc=PDBC()
 
 if len(sys.argv)<3:
-    print "need input file"
+    print "need 2 input file"
     exit();
 
 TFIndex=sys.argv[1] #InvertedIndex
