@@ -53,7 +53,7 @@ if len(sys.argv)<3:
     exit();
 
 TFIndex=sys.argv[1] #InvertedIndex
-pageIndex=sys.argv[2] #PageOffLen
+pageIndex=sys.argv[2] #PageIndex
 
 with open(TFIndex,"r") as fin:
     i=0; mod=100

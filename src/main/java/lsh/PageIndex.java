@@ -11,7 +11,6 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.wikiclean.WikiClean;
 
-import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.IOException;
 
 /**
@@ -40,7 +39,7 @@ class LongArrayWritable extends ArrayWritable {
     }
 }
 
-public class PageOffLen {
+public class PageIndex {
 
     public static void main(String[] args) throws Exception {
         Configuration conf = new Configuration();
@@ -48,8 +47,8 @@ public class PageOffLen {
         conf.set("xmlinput.end", "</page>");
 
         Job job = Job.getInstance(conf);
-        job.setJarByClass(PageOffLen.class);
-        job.setMapperClass(PageOffLen.Map.class);
+        job.setJarByClass(PageIndex.class);
+        job.setMapperClass(PageIndex.Map.class);
 
         job.setInputFormatClass(XmlInputFormat.class);
         job.setOutputKeyClass(LongWritable.class);

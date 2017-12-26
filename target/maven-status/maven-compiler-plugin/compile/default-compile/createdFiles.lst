@@ -1,4 +1,5 @@
 lsh/PairLongStringWritable.class
+lsh/PageIndex$Map.class
 lsh/XmlInputFormat.class
 lsh/InvertedIndex$Map.class
 lsh/TFCalculate.class
@@ -8,7 +9,6 @@ lsh/PairLongLongWritable.class
 lsh/TFCalculate$Map.class
 lsh/InvertedIndex.class
 lsh/XmlInputFormat$XMLRecordReader.class
-lsh/PageOffLen.class
 lsh/InvertedIndex$Reduce.class
+lsh/PageIndex.class
 lsh/TripleWritable.class
-lsh/PageOffLen$Map.class
