@@ -76,6 +76,8 @@ public class TFCalculate {
             Long id = Long.parseLong(cleaner.getId(text));
             String origin_title = cleaner.getTitle(text);
             String title = origin_title.toLowerCase();
+            String origin_content=cleaner.clean(text);
+            if(origin_content.indexOf("#REDIRECT")!=-1) return;
             String content = cleaner.clean(text).toLowerCase();
 
             String[] words = slice(title.toCharArray());

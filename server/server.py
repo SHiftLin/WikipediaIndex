@@ -4,8 +4,11 @@ import os
 import sys
 import json
 import time
-import random
+import math
 import mysql.connector
+import xml.dom.minidom
+import subprocess as sp
+
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -46,10 +49,17 @@ class PDBC:
         cur.close()
         return row
 
+def parseWikiMarkup(text):
+    pipe=sp.Popen(["python","smcTool.py"], stdin=sp.PIPE, stdout=sp.PIPE)
+    (foutdata,ferrdata)=pipe.communicate(text)
+    return foutdata
+
 pdbc=PDBC()
 f_tf=open("resources/TFCalculate","r")
 f_page=open("resources/enwikisource-20171020-pages-articles-multistream.xml","r")
 
+
+total_pages=2115037
 
 @app.route('/search')
 def search():
@@ -58,6 +68,7 @@ def search():
     data=[]
     if row!=None:
         (word,start,length,count)=row
+        idf=math.log(1.0*total_pages/(1+count))
         f_tf.seek(start)
         n=min(count,30)
         for i in xrange(0,n,1):
@@ -70,18 +81,26 @@ def search():
             page_id=int(value[:p])
             title=value[p+1:-1]
             data.append({'page_id':page_id,'tf':tf,'title':title})
-    return render_template('results.html',data=data)
+        return render_template('results.html',keyword=keyword,idf=idf,data=data)
+    else:
+        return "Not Found!"
 
 @app.route('/getPage')
 def getPage():
     page_id=request.args.get('page_id')
     row=pdbc.queryPage(page_id)
-    page=''
+    html='Not Found!'
     if row!=None:
         (page_id,offset,length)=row
         f_page.seek(offset)
         page=f_page.read(length)
-    return page
+
+        dom=xml.dom.minidom.parseString(page)
+        root=dom.documentElement
+        text=root.getElementsByTagName('text')[0].firstChild.data
+
+        html=parseWikiMarkup(text)
+    return html
 
 @app.route('/')
 def index():
