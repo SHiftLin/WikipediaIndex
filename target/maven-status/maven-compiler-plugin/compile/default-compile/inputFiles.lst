@@ -1,8 +1,8 @@
+/Users/lsh/Desktop/Projects/IdeaProjects/hadoop/src/main/java/lsh/PageIndex.java
 /Users/lsh/Desktop/Projects/IdeaProjects/hadoop/src/main/java/lsh/XmlInputFormat.java
 /Users/lsh/Desktop/Projects/IdeaProjects/hadoop/src/main/java/lsh/TFCalculate.java
-/Users/lsh/Desktop/Projects/IdeaProjects/hadoop/src/main/java/lsh/WordCount.java
 /Users/lsh/Desktop/Projects/IdeaProjects/hadoop/src/main/java/lsh/PairLongLongWritable.java
-/Users/lsh/Desktop/Projects/IdeaProjects/hadoop/src/main/java/lsh/PageOffLen.java
+/Users/lsh/Desktop/Projects/IdeaProjects/hadoop/src/main/java/lsh/PairLongStringWritable.java
 /Users/lsh/Desktop/Projects/IdeaProjects/hadoop/src/main/java/lsh/TripleWritable.java
 /Users/lsh/Desktop/Projects/IdeaProjects/hadoop/src/main/java/lsh/PairStringDoubleWritable.java
 /Users/lsh/Desktop/Projects/IdeaProjects/hadoop/src/main/java/lsh/InvertedIndex.java
